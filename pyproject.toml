@@ -1,0 +1,15 @@
+[project]
+name = "ollama-agent"
+version = "0.1.0"
+description = "An intelligent agent CLI for Ollama with natural language command execution"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.32.5",
+]
+
+[project.scripts]
+ollama-agent = "ollama_cli:main"
+
+[tool.setuptools]
+py-modules = ["ollama_cli"]
