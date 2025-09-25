@@ -12,6 +12,10 @@ class CodeSearcher:
     def search_code(self, query: str, file_pattern: str = "*") -> str:
         """Search for code patterns in files"""
         try:
+            # Handle empty or whitespace-only queries immediately
+            if not query or not query.strip():
+                return "Error: Search query cannot be empty"
+
             results = []
             search_path = self.working_directory
 

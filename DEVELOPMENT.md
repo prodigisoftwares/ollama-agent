@@ -326,6 +326,49 @@ When adding new functionality:
 - Plan for internationalization if expanding user base
 - Consider CLI framework (Click, Typer) for advanced command handling
 
+## Test Performance Best Practices
+
+Based on the optimizations implemented for Issue #11, here are best practices for maintaining fast test execution:
+
+### 1. Validate Input Early
+- **Before**: Tests with invalid inputs (like empty search queries) would process through entire codebase
+- **After**: Validate inputs at the beginning of functions to fail fast
+- **Example**: Check for empty strings before expensive file system operations
+
+### 2. Minimize Integration Test Overhead
+- **Use minimal test scenarios**: Only test what's necessary to validate functionality
+- **Reduce timeouts**: Use the shortest timeout that reliably works
+- **Avoid redundant operations**: Don't send unnecessary commands in subprocess tests
+
+### 3. Profile Slow Tests Regularly
+```bash
+# Identify slow tests
+python -m pytest tests/ --durations=0
+
+# Run specific slow tests to debug
+python -m pytest tests/test_file.py::TestClass::test_slow_method -v
+```
+
+### 4. Optimize File System Operations
+- **Avoid recursive file searches with broad patterns**: Especially with empty or very general queries
+- **Limit result sets early**: Don't process more data than needed
+- **Cache expensive operations**: Consider caching file system lookups in tests
+
+### 5. Target Execution Times
+- **Unit tests**: Aim for <0.1s per test
+- **Integration tests**: Aim for <1s per test
+- **Full test suite**: Should complete in under 10s
+- **Critical threshold**: If any single test takes >5s, investigate immediately
+
+### Performance Monitoring
+Monitor test performance over time:
+```bash
+# Run tests with timing and save to file
+python -m pytest tests/ --durations=0 > test_timings.txt
+
+# Compare with previous runs to catch performance regressions
+```
+
 ## Resources
 
 - [Python Type Hints](https://docs.python.org/3/library/typing.html)
