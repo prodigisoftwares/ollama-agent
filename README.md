@@ -25,36 +25,53 @@ Ollama Agent bridges the gap between conversational AI and system operations, al
 
 ## Installation
 
+### From PyPI (Recommended)
+
+Install directly from PyPI using pip:
+
+```bash
+pip install ollama-agent
+```
+
+Then run with:
+```bash
+ollama-agent
+```
+
+### From Source (Development)
+
 1. Clone or download this project
 2. Install dependencies:
    ```bash
-   uv add requests
+   uv sync
    ```
-3. Make the script executable:
+3. Run in development mode:
    ```bash
-   chmod +x ollama_cli.py
+   uv run python ollama_cli.py
    ```
 
 ## Usage
 
 ### Basic Usage
 
-Run the CLI directly:
+If installed from PyPI:
 ```bash
-./ollama_cli.py
+ollama-agent
 ```
 
-Or with Python:
+If running from source:
 ```bash
+./ollama_cli.py
+# or
 uv run python ollama_cli.py
 ```
 
 ### Command Line Options
 
 ```bash
-./ollama_cli.py --model codestral:22b    # Use specific model
-./ollama_cli.py --url http://localhost:11434  # Custom Ollama URL
-./ollama_cli.py --help                   # Show help
+ollama-agent --model codestral:22b    # Use specific model
+ollama-agent --url http://localhost:11434  # Custom Ollama URL
+ollama-agent --help                   # Show help
 ```
 
 ### Natural Language Commands
