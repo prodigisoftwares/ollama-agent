@@ -29,6 +29,13 @@ repos:
         pass_filenames: false
         always_run: true
 
+      - id: tests
+        name: run test suite
+        entry: python -m pytest tests/ -v
+        language: system
+        pass_filenames: false
+        always_run: true
+
       - id: coverage
         name: coverage
         entry: bash -c 'coverage run -m pytest && coverage report --fail-under=80'
