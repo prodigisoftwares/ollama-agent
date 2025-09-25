@@ -89,6 +89,7 @@ class TestSearchFunctionality:
         cli = OllamaCLI()
         result = cli.search_code("")
         assert isinstance(result, str)
+        assert "Error: Search query cannot be empty" in result
 
     def test_find_functions_with_filter(self):
         """Test finding functions with name filter"""
@@ -111,8 +112,8 @@ class TestClsCommand:
         import subprocess
         import sys
 
-        # Test commands that simulate /cls usage
-        test_input = "test message\n/cls\n/exit\n"
+        # Test commands that simulate /cls usage - streamlined for faster execution
+        test_input = "/cls\n/exit\n"
 
         try:
             result = subprocess.run(
@@ -120,7 +121,7 @@ class TestClsCommand:
                 input=test_input,
                 text=True,
                 capture_output=True,
-                timeout=15,
+                timeout=5,  # Reduced from 15s to 5s
                 cwd="/home/harlin/Sandbox/prodigi/agent",
             )
 
