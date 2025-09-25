@@ -9,7 +9,7 @@ from .core.cli import OllamaCLI
 __all__ = ["OllamaCLI", "main"]
 
 
-def main():
+def main():  # pragma: no cover
     """Main entry point for the ollama-agent command."""
     parser = argparse.ArgumentParser(
         description="Ollama CLI - Claude Code-like Interface"
