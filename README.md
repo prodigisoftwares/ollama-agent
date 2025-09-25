@@ -15,6 +15,7 @@ Ollama Agent bridges the gap between conversational AI and system operations, al
 - **Model Management**: Switch between available Ollama models
 - **Conversation History**: Maintains context throughout your session
 - **Slash Commands**: Traditional command interface for direct control
+- **Code Analysis Tools**: Search code patterns, find functions/classes, TODO comments, and imports
 
 ## Requirements
 
@@ -77,6 +78,10 @@ For direct control, use slash commands:
 - `/cd <directory>` - Change working directory
 - `/models` - List available Ollama models
 - `/model <name>` - Switch to different model
+- `/search <query>` - Search for code patterns in files
+- `/find-func [name]` - Find function/class definitions (optional name filter)
+- `/find-todo` - Find TODO comments in the codebase
+- `/find-import <module>` - Find files that import a specific module
 - `/clear` - Clear conversation history
 - `/help` - Show help information
 - `/exit` - Exit the program
@@ -115,6 +120,25 @@ You: /model codestral:22b
 Switched to model: codestral:22b
 ```
 
+### Code Analysis
+```
+You: /search "def main"
+Search results for 'def main':
+  ollama_cli.py:612: def main():
+
+You: /find-func search
+Functions/Classes found:
+  ollama_cli/code_analysis/searcher.py:12: class CodeSearcher:
+
+You: /find-todo
+TODO comments found:
+  src/utils.py:25: # TODO: Add error handling
+
+You: /find-import requests
+Files importing 'requests':
+  ollama_cli/ai/client.py:6: import requests
+```
+
 ## Configuration
 
 Ollama Agent uses these defaults:
@@ -135,16 +159,24 @@ All can be overridden via command line options.
 
 ```
 agent/
-├── ollama_cli.py      # Main CLI script
-├── pyproject.toml     # Project configuration and dependencies
-├── README.md          # This file
-├── .gitignore        # Git ignore patterns
-└── uv.lock           # Dependency lock file
+├── ollama_cli.py              # Main CLI entry point
+├── ollama_cli/                # Package modules
+│   ├── core/                  # Core CLI functionality
+│   ├── ai/                    # AI integration and communication
+│   ├── file_ops/             # File operations (read, write, navigate)
+│   ├── code_analysis/        # Code analysis tools
+│   └── commands/             # Command execution
+├── tests/                     # Test suite
+├── pyproject.toml            # Project configuration and dependencies
+├── README.md                 # This file
+├── DEVELOPMENT.md            # Developer documentation
+├── .gitignore               # Git ignore patterns
+└── uv.lock                  # Dependency lock file
 ```
 
 ## Development
 
-This project uses `uv` for dependency management:
+This project uses `uv` for dependency management. For detailed development information, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ```bash
 # Add new dependency
@@ -152,6 +184,9 @@ uv add package_name
 
 # Run script with dependencies
 uv run python ollama_cli.py
+
+# Run tests
+python -m pytest tests/ -v
 
 # Install as editable package
 uv pip install -e .
