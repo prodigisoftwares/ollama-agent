@@ -11,6 +11,7 @@ from ..ai import OllamaClient, PromptManager, ResponseProcessor
 from ..code_analysis import CodeSearcher, FunctionFinder, ImportFinder, TodoFinder
 from ..commands import CommandExecutor
 from ..file_ops import DirectoryNavigator, FileReader, FileWriter
+from .help import HelpSystem
 from .input_handler import InputHandler
 
 
@@ -51,6 +52,9 @@ class OllamaCLI:  # pragma: no cover
 
         # Input handler for enhanced terminal input
         self.input_handler = InputHandler()
+
+        # Help system
+        self.help_system = HelpSystem()
 
     @property
     def model(self) -> str:
@@ -167,7 +171,17 @@ class OllamaCLI:  # pragma: no cover
                         print("👋 Goodbye!")
                         break
                     elif command == "help":
-                        print(self.get_help_text())
+                        if args:
+                            # Help for specific command
+                            if args[0].lower() in ["examples", "example"]:
+                                print(self.help_system.get_examples_help())
+                            elif args[0].lower() in ["tips", "tricks"]:
+                                print(self.help_system.get_tips_help())
+                            else:
+                                print(self.help_system.get_command_help(args[0]))
+                        else:
+                            # General help overview
+                            print(self.help_system.get_overview_help())
                     elif command == "clear":
                         self.ai_client.clear_conversation()
                         print("🧹 Conversation history cleared")
@@ -229,6 +243,12 @@ class OllamaCLI:  # pragma: no cover
                         print(result)
                     else:
                         print(f"❓ Unknown command: {command}")
+                        # Try to find similar commands
+                        similar = self.help_system.search_help(command)
+                        if similar:
+                            print(
+                                f"💡 Did you mean: {', '.join(f'/{cmd}' for cmd in similar[:3])}?"  # noqa: E501
+                            )
                         print("Type /help for available commands")
 
                 else:
@@ -247,37 +267,3 @@ class OllamaCLI:  # pragma: no cover
             except EOFError:
                 print("\n👋 Goodbye!")
                 break
-
-    def get_help_text(self) -> str:
-        """Get help text"""
-        return """
-📖 Ollama CLI Help
-
-Available commands:
-  /read <file_path>     - Read and display a file
-  /write <file_path>    - Write content to a file
-  /run <command>        - Execute a shell command
-  /ls [directory]       - List files (default: current directory)
-  /cd <directory>       - Change working directory
-  /search <query>       - Search for code patterns in files
-  /find-func [name]     - Find function/class definitions (optional name filter)
-  /find-todo            - Find TODO comments in the codebase
-  /find-import <module> - Find files that import a specific module
-  /models               - List available Ollama models
-  /model <model_name>   - Switch to a different model
-  /clear                - Clear conversation history
-  /clear-history        - Clear command history
-  /cls                  - Clear screen and conversation history
-  /help                 - Show this help
-  /exit                 - Exit the program
-
-💡 Tips:
-- You can have normal conversations with the AI
-- Use arrow keys for cursor navigation and command history
-- ↑/↓ navigate through command history, ←/→ move cursor within input
-- Ctrl+A/E jump to beginning/end, Ctrl+K kills to end of line
-- The AI can suggest commands for file operations
-- New code analysis features help you navigate codebases
-- File paths can be relative or absolute
-- Use Ctrl+C or Ctrl+D to exit
-"""

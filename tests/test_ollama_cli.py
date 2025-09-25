@@ -58,18 +58,26 @@ class TestOllamaCLI:
             or "No files found importing" in result
         )
 
-    def test_get_help_text(self):
-        """Test help text generation"""
+    def test_help_system_integration(self):
+        """Test help system integration"""
         cli = OllamaCLI()
-        help_text = cli.get_help_text()
+        # Test that help system is properly initialized
+        assert hasattr(cli, 'help_system')
+        assert cli.help_system is not None
+
+        # Test overview help
+        help_text = cli.help_system.get_overview_help()
         assert isinstance(help_text, str)
-        assert "Ollama CLI Help" in help_text
+        assert "Ollama CLI" in help_text
         assert "/search" in help_text
         assert "/find-func" in help_text
         assert "/find-todo" in help_text
         assert "/find-import" in help_text
-        assert "/cls" in help_text
-        assert "Clear screen and conversation history" in help_text
+
+        # Test command-specific help
+        search_help = cli.help_system.get_command_help("search")
+        assert "Search for code patterns" in search_help
+        assert "/search <query>" in search_help
 
     def test_get_system_prompt(self):
         """Test system prompt generation"""
@@ -154,11 +162,14 @@ class TestClsCommand:
     def test_help_includes_cls_command(self):
         """Test that help text includes /cls command"""
         cli = OllamaCLI()
-        help_text = cli.get_help_text()
+        help_text = cli.help_system.get_overview_help()
 
         # Verify /cls is listed in commands
         assert "/cls" in help_text
-        assert "Clear screen and conversation history" in help_text
+
+        # Test specific command help for cls
+        cls_help = cli.help_system.get_command_help("cls")
+        assert "Clear screen and conversation history" in cls_help
 
         # Verify it's properly positioned in the command list
         lines = help_text.split("\n")

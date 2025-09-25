@@ -16,6 +16,7 @@ Ollama Agent bridges the gap between conversational AI and system operations, al
 - **Conversation History**: Maintains context throughout your session
 - **Slash Commands**: Traditional command interface for direct control
 - **Code Analysis Tools**: Search code patterns, find functions/classes, TODO comments, and imports
+- **Rich Help System**: Comprehensive help with examples, tips, and contextual assistance
 
 ## Requirements
 
@@ -71,7 +72,7 @@ uv run python ollama_cli.py
 ```bash
 ollama-agent --model codestral:22b    # Use specific model
 ollama-agent --url http://localhost:11434  # Custom Ollama URL
-ollama-agent --help                   # Show help
+ollama-agent --help                   # Show comprehensive help with examples and features
 ```
 
 ### Natural Language Commands
@@ -101,7 +102,7 @@ For direct control, use slash commands:
 - `/find-import <module>` - Find files that import a specific module
 - `/clear` - Clear conversation history
 - `/cls` - Clear screen and conversation history
-- `/help` - Show help information
+- `/help [command|examples|tips]` - Show help information
 - `/exit` - Exit the program
 
 ## Examples
@@ -155,6 +156,29 @@ TODO comments found:
 You: /find-import requests
 Files importing 'requests':
   ollama_cli/ai/client.py:6: import requests
+```
+
+### Help System
+```
+You: /help
+📖 Ollama CLI - Comprehensive Help
+[Shows categorized command overview]
+
+You: /help search
+📖 Help for /search
+Description: Search for code patterns in files
+Usage: /search <query>
+Examples:
+  /search function main
+  /search TODO
+
+You: /help examples
+🚀 Ollama CLI - Usage Examples
+[Shows workflow examples for different scenarios]
+
+You: /help tips
+💡 Ollama CLI - Tips & Tricks
+[Shows keyboard shortcuts and productivity tips]
 ```
 
 ## Configuration
