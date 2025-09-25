@@ -48,8 +48,9 @@ repos:
 
       - id: coverage
         name: coverage
-        entry: bash -c 'coverage run -m pytest && coverage report --fail-under=80'
+        entry: bash -c 'coverage run -m pytest && coverage report --fail-under=80 --show-missing --skip-covered'
         language: system
         pass_filenames: false
         always_run: true
-        stages: [pre-push]
+        verbose: true
+        stages: [pre-commit, pre-push]

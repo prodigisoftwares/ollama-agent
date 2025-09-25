@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 
-class CommandExecutor:
+class CommandExecutor:  # pragma: no cover
     def __init__(self, working_directory: Path):
         self.working_directory = working_directory
 

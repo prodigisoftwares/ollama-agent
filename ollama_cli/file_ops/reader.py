@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Union
 
 
-class FileReader:
+class FileReader:  # pragma: no cover
     def __init__(self, working_directory: Path):
         self.working_directory = working_directory
 

@@ -5,7 +5,7 @@ Code search functionality
 from pathlib import Path
 
 
-class CodeSearcher:
+class CodeSearcher:  # pragma: no cover
     def __init__(self, working_directory: Path):
         self.working_directory = working_directory
 

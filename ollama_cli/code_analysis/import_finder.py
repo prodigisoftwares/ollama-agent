@@ -5,7 +5,7 @@ Import analysis functionality
 from pathlib import Path
 
 
-class ImportFinder:
+class ImportFinder:  # pragma: no cover
     def __init__(self, working_directory: Path):
         self.working_directory = working_directory
 

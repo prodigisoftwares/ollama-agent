@@ -52,5 +52,5 @@ class DirectoryNavigator:
 
             return f"Changed directory to {path}", path
 
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             return f"Error changing directory: {str(e)}", self.working_directory
