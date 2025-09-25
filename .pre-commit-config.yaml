@@ -31,10 +31,11 @@ repos:
 
       - id: tests
         name: run test suite
-        entry: python -m pytest tests/ -v
+        entry: python -m pytest tests/ -v -s --tb=short
         language: system
         pass_filenames: false
         always_run: true
+        verbose: true
 
       - id: coverage
         name: coverage
