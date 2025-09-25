@@ -133,12 +133,16 @@ class OllamaCLI:
         self.todo_finder.working_directory = new_directory
         self.import_finder.working_directory = new_directory
 
-    def interactive_mode(self):
-        """Run the interactive CLI"""
+    def _show_welcome_message(self):
+        """Display the welcome message"""
         print(f"🤖 Ollama CLI - Claude Code-like Interface")
         print(f"Model: {self.model}")
         print(f"Working Directory: {self.working_directory}")
         print(f"Type /help for commands or start chatting!\n")
+
+    def interactive_mode(self):
+        """Run the interactive CLI"""
+        self._show_welcome_message()
 
         system_prompt = self.get_system_prompt()
 
@@ -163,6 +167,13 @@ class OllamaCLI:
                     elif command == "clear":
                         self.ai_client.clear_conversation()
                         print("🧹 Conversation history cleared")
+                    elif command == "cls":
+                        # Clear terminal screen
+                        print("\033[H\033[2J\033[3J", end="", flush=True)
+                        # Clear conversation history
+                        self.ai_client.clear_conversation()
+                        # Show welcome message again
+                        self._show_welcome_message()
                     elif command == "models":
                         models = self.list_models()
                         print("Available models:")
@@ -248,6 +259,7 @@ Available commands:
   /models               - List available Ollama models
   /model <model_name>   - Switch to a different model
   /clear                - Clear conversation history
+  /cls                  - Clear screen and conversation history
   /help                 - Show this help
   /exit                 - Exit the program
 
