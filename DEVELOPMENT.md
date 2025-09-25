@@ -115,9 +115,10 @@ python -m pytest tests/test_ollama_cli.py::TestOllamaCLI -v
 
 ### Current Test Coverage
 
-- **11 tests** covering core functionality
+- **13 tests** covering core functionality including `/cls` command
 - **100% pass rate** maintained during refactoring
 - Tests focus on public API to ensure backward compatibility
+- Integration tests verify command execution through subprocess simulation
 
 ### Adding New Tests
 

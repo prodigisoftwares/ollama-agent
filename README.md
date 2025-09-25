@@ -83,6 +83,7 @@ For direct control, use slash commands:
 - `/find-todo` - Find TODO comments in the codebase
 - `/find-import <module>` - Find files that import a specific module
 - `/clear` - Clear conversation history
+- `/cls` - Clear screen and conversation history
 - `/help` - Show help information
 - `/exit` - Exit the program
 
