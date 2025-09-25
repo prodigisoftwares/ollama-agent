@@ -11,6 +11,7 @@ from ..ai import OllamaClient, PromptManager, ResponseProcessor
 from ..code_analysis import CodeSearcher, FunctionFinder, ImportFinder, TodoFinder
 from ..commands import CommandExecutor
 from ..file_ops import DirectoryNavigator, FileReader, FileWriter
+from .input_handler import InputHandler
 
 
 class OllamaCLI:
@@ -47,6 +48,9 @@ class OllamaCLI:
             self.todo_finder,
             self.import_finder,
         )
+
+        # Input handler for enhanced terminal input
+        self.input_handler = InputHandler()
 
     @property
     def model(self) -> str:
@@ -148,7 +152,7 @@ class OllamaCLI:
 
         while True:
             try:
-                user_input = input("💬 ").strip()
+                user_input = self.input_handler.get_input("💬 ").strip()
 
                 if not user_input:
                     continue
@@ -167,6 +171,9 @@ class OllamaCLI:
                     elif command == "clear":
                         self.ai_client.clear_conversation()
                         print("🧹 Conversation history cleared")
+                    elif command == "clear-history":
+                        self.input_handler.clear_history()
+                        print("🧹 Command history cleared")
                     elif command == "cls":
                         # Clear terminal screen
                         print("\033[H\033[2J\033[3J", end="", flush=True)
@@ -259,12 +266,16 @@ Available commands:
   /models               - List available Ollama models
   /model <model_name>   - Switch to a different model
   /clear                - Clear conversation history
+  /clear-history        - Clear command history
   /cls                  - Clear screen and conversation history
   /help                 - Show this help
   /exit                 - Exit the program
 
 💡 Tips:
 - You can have normal conversations with the AI
+- Use arrow keys for cursor navigation and command history
+- ↑/↓ navigate through command history, ←/→ move cursor within input
+- Ctrl+A/E jump to beginning/end, Ctrl+K kills to end of line
 - The AI can suggest commands for file operations
 - New code analysis features help you navigate codebases
 - File paths can be relative or absolute
