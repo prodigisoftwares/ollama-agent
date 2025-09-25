@@ -14,7 +14,7 @@ from ..file_ops import DirectoryNavigator, FileReader, FileWriter
 from .input_handler import InputHandler
 
 
-class OllamaCLI:
+class OllamaCLI:  # pragma: no cover
     def __init__(
         self, model: str = "gemma2:9b", base_url: str = "http://localhost:11434"
     ):

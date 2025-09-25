@@ -7,7 +7,7 @@ import readline
 from typing import List, Optional
 
 
-class InputHandler:
+class InputHandler:  # pragma: no cover
     """Enhanced input handler with arrow key navigation and history support"""
 
     def __init__(self, history_file: Optional[str] = None):

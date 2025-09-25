@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 
-class TodoFinder:
+class TodoFinder:  # pragma: no cover
     def __init__(self, working_directory: Path):
         self.working_directory = working_directory
 

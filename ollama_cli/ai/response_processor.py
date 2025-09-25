@@ -5,7 +5,7 @@ AI response processing and command execution
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ..ai.client import OllamaClient
     from ..code_analysis import CodeSearcher, FunctionFinder, ImportFinder, TodoFinder
     from ..commands.executor import CommandExecutor
